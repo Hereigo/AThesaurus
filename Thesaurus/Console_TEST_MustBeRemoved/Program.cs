@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Thesaurus;
 
-namespace TEST_KILL_ME
+namespace Console_TEST_MustBeRemoved
 {
     class Program
     {
