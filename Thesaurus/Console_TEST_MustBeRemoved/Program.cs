@@ -20,6 +20,7 @@ namespace Console_TEST_MustBeRemoved
             the.AddSynonyms(new List<string> { "aaa", "bbb" });
 
             Console.WriteLine("looking for =" + pattern + "= \n");
+
             foreach (var item in the.GetSynonyms(pattern))
             {
                 Console.WriteLine(item);

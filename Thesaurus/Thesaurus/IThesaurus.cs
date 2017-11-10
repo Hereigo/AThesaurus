@@ -1,10 +1,12 @@
 ﻿/*
-Prior to C# code test review we would like to see effort beeing put into the Theasurus problem {input + expected output} highlighted by test cases. 
+Prior to C# code test review we would like to see effort beeing put into the Theasurus 
+problem {input + expected output} highlighted by test cases. 
 Remember that the Theasaurus problem presents many edge-cases and has many interpretations. 
 Also we would like the solutions provided to reach production quality.   
 
 We want the engineer to think himself and present his thoughts in a follow-up meeting, 
-hence not everything is specified. This doesn't mean that we want a small/quick solution but you have a chance to to show all your knowledge-arsenal. 
+hence not everything is specified. This doesn't mean that we want a small/quick solution 
+but you have a chance to to show all your knowledge-arsenal. 
 
 you shall be able to describe your code and the different decisions you made about functionality in the two tasks below.
 Any reflections, deficiencies, or limitations shall also be described. You may use any framework you want.

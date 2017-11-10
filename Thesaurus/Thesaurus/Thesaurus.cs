@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Thesaurus
 {
-    // HELLO!
-    // My name is Andrew Plakhtiy.
-    // I am able to use NUnit an xUnit frameworks a little.
-    // Unfortunately, I has not enough time to implement testing for this project.
-    // Because of my private affairs and curretn work project. Sorry.
-    // Thank you for your time!
+    /* 
+     * Esteemed experts,
+     * my name is Andrew Plakhtiy.
+     * I could improve application if I can change 
+     * parameters and return type in IThesaurus interface methods. 
+     * Thank you for your time!
+     */
 
     public class Thesaurus : IThesaurus
     {
