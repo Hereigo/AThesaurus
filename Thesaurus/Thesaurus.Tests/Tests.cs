@@ -16,7 +16,7 @@ namespace Thesaurus.Tests
         [InlineData(" ", " ", " ")]
         [InlineData("!%$@!&#^_+", "_)&)(^&*(%$", "(*^&%*&%#&$@")]
         [InlineData("", "", "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890")]
-        public void AddSynonyms_WithoutExceptions(string s1, string s2, string s3)
+        public void AddSynonyms_MustInsertAnyStrings_WithNoException(string s1, string s2, string s3)
         {
             IEnumerable<string> strings = new List<string> { s1, s2, s3 }; 
 

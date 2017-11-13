@@ -13,6 +13,7 @@ namespace Thesaurus
     {
         private const string dbStorage = "thesaurus.db";
         private const string synonymNounsTable = "SynonymNouns";
+        private const string synonymsDelimiter = "_";
 
         public SqLiteWork()
         {
@@ -68,7 +69,6 @@ namespace Thesaurus
             using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbStorage + "; Version=3;"))
             {
                 conn.Open();
-
                 if (conn.State == ConnectionState.Open)
                 {
                     SQLiteCommand command = conn.CreateCommand();
