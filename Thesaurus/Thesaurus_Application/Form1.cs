@@ -12,7 +12,7 @@ using Thesaurus;
 namespace Thesaurus_Application
 {
     /// <summary>
-    /// Too simple form application. Only for demo of thesaurus work.
+    /// Too simple form application for demo of thesaurus work only.
     /// </summary>
     public partial class Form1 : Form
     {
@@ -23,7 +23,7 @@ namespace Thesaurus_Application
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             textBox2.Text = "";
             IEnumerable<string> words = thesaurus.GetWords();
@@ -33,7 +33,7 @@ namespace Thesaurus_Application
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
@@ -50,7 +50,7 @@ namespace Thesaurus_Application
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
@@ -58,7 +58,7 @@ namespace Thesaurus_Application
             }
             else if (string.IsNullOrWhiteSpace(textBox2.Text))
             {
-                MessageBox.Show("Write your synonyms, please.");
+                MessageBox.Show("Write synonyms for presented word, please.");
             }
             else
             {
@@ -68,7 +68,24 @@ namespace Thesaurus_Application
                 {
                     newWords.Add(textBox2.Lines[i]);
                 }
+
                 thesaurus.AddSynonyms(newWords);
+
+                textBox2.Text = "";
+                // TODO:
+                // implement async !!!
+                // implement async !!!
+                // implement async !!!
+                // implement async !!!
+                // implement async !!!
+                // implement async !!!
+                System.Threading.Thread.Sleep(10000);
+
+                IEnumerable<string> words = thesaurus.GetWords();
+                foreach (var item in words)
+                {
+                    textBox2.Text += item + Environment.NewLine;
+                }
             }
         }
     }

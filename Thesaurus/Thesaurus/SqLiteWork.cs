@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Thesaurus
 {
     internal class SqLiteWork : IDbWorker
     {
-        private const string dbStorage = "thesaurus.db";
+        private const string dbStorage = "thesaurus.sqlite";
         private const string synonymNounsTable = "SynonymNouns";
-        private const string synonymsDelimiter = "_";
+
+        // TODO :
+        // implement async!
+        // https://www.google.com.ua/search?q=c%23+async+with+sqlite&ie=utf-8&oe=utf-8&client=firefox-b&gfe_rd=cr&dcr=1&ei=dIkJWvv3EOKAX5aAgdgC
 
         public SqLiteWork()
         {
@@ -21,10 +22,10 @@ namespace Thesaurus
         }
 
         // TODO:
-        // too much code-duplicates!
-        // must be refactored!
-        // i am sorry. I had not enough time.
-        // TODO:
+
+        // TOO MUCH CODE-DUPLICATES!
+
+        // MUST BE REFACTORED!!!
 
         public List<WordSynonims> GetMany()
         {
@@ -80,7 +81,7 @@ namespace Thesaurus
         }
 
 
-        internal void UpdateSynonymsFor(int id, string newSynonyms)
+        internal void UpdateSynonymsForId(int id, string newSynonyms)
         {
             string updateCmd = "UPDATE " + synonymNounsTable + " SET synonyms=:NewSyn WHERE id=:Id";
 
@@ -101,12 +102,11 @@ namespace Thesaurus
         }
 
 
-        public WordSynonims GetOneIfExists(string word)
+        public WordSynonims GetOneIfExists(IEnumerable<string> words)
         {
-            WordSynonims synonyms = null;
+            List<string> list = words.ToList();
 
-            string selectCmd = "SELECT * FROM " + synonymNounsTable +
-                " WHERE synonyms LIKE '% " + word + " %'";
+            WordSynonims synonyms = null;
 
             using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbStorage + "; Version=3;"))
             {
@@ -114,21 +114,25 @@ namespace Thesaurus
                 if (conn.State == ConnectionState.Open)
                 {
                     SQLiteCommand command = conn.CreateCommand();
-                    command.CommandText = selectCmd;
 
-                    SQLiteDataReader rdr = command.ExecuteReader();
-
-                    while (rdr.Read() && synonyms == null)
+                    foreach (var word in words)
                     {
-                        int id = rdr.GetInt32(0);
-                        if (id != 0)
+                        command.CommandText = $"SELECT * FROM {synonymNounsTable} WHERE synonyms LIKE '% {word} %'";
+
+                        SQLiteDataReader rdr = command.ExecuteReader();
+
+                        while (rdr.Read() && synonyms == null)
                         {
-                            synonyms = new WordSynonims
+                            int id = rdr.GetInt32(0);
+                            if (id != 0)
                             {
-                                Id = id,
-                                Description = rdr.GetString(1),
-                                Synonims = rdr.GetString(2)
-                            };
+                                synonyms = new WordSynonims
+                                {
+                                    Id = id,
+                                    Description = rdr.GetString(1),
+                                    Synonims = rdr.GetString(2)
+                                };
+                            }
                         }
                     }
                 }
@@ -153,11 +157,11 @@ namespace Thesaurus
                               "INSERT INTO " + synonymNounsTable +
                               " (description, synonyms) VALUES " +
                               "('a vehicle for traveling through the air that has fixed wings for lift', " +
-                              "' airplane aeroplane plane '), " +
+                              "'airplane aeroplane plane'), " +
                               "('a large human settlement with systems for housing, transportation, sanitation, utilities, and communication', " +
-                              "' city metropolis town '), " +
+                              "'city metropolis town'), " +
                               "('a mixture of clay, sand and organic matter present on the surface of the Earth and serving as substrate for plant growth and micro-organisms development', " +
-                              "' earth ground land soil ')";
+                              "'earth ground land soil')";
 
                 using (SQLiteConnection conn =
                     new SQLiteConnection("Data Source=" + dbStorage + "; Version=3;"))

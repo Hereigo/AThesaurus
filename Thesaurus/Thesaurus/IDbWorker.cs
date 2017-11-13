@@ -8,9 +8,8 @@ namespace Thesaurus
 {
     interface IDbWorker
     {
-        WordSynonims GetOneIfExists(string word);
+        WordSynonims GetOneIfExists(IEnumerable<string> word);
 
         List<WordSynonims> GetMany();
-
     }
 }
