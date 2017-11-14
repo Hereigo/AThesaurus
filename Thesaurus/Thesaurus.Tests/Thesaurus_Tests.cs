@@ -9,6 +9,9 @@ namespace Thesaurus.Tests
 {
     public class Thesaurus_Tests
     {
+        // TODO:
+        // Create MOCKs to emulate DB different from sqlite.
+
         Thesaurus thesaurus = new Thesaurus();
 
         [Theory]
@@ -28,5 +31,32 @@ namespace Thesaurus.Tests
         // check for increment of db records after insert new
         // and no increment after update!
 
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("abc")]
+        [InlineData("(*^$*%@")]
+        [InlineData("woman plane")]
+        public void GetSynonyms_ForIncorrect_IsEmpty(string input)
+        {
+            IEnumerable<string> resultForIncorrect = new List<string>();
+
+            var realResult = thesaurus.GetSynonyms(input);
+
+            Assert.Empty(realResult);
+        }
+
+        [Theory]
+        [InlineData("city ")]
+        [InlineData(" woman")]
+        [InlineData(" plane ")]
+        public void GetSynonyms_Correct_IsNotEmpty(string input)
+        {
+            IEnumerable<string> resultForIncorrect = new List<string>();
+
+            var realResult = thesaurus.GetSynonyms(input);
+
+            Assert.NotEmpty(realResult);
+        }
     }
 }

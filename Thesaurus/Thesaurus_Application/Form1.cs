@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Thesaurus;
 
@@ -25,11 +19,14 @@ namespace Thesaurus_Application
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            textBox2.Text = "";
+            tb2_viewRes.Text = "";
             IEnumerable<string> words = thesaurus.GetWords();
             foreach (var item in words)
             {
-                textBox2.Text += item + Environment.NewLine;
+                if (!string.IsNullOrWhiteSpace(item))
+                {
+                    tb2_viewRes.Text += item + Environment.NewLine;
+                }
             }
         }
 
@@ -41,52 +38,63 @@ namespace Thesaurus_Application
             }
             else
             {
-                textBox2.Text = "";
+                tb2_viewRes.Text = "";
                 IEnumerable<string> synonyms = thesaurus.GetSynonyms(textBox1.Text.Trim());
+
                 foreach (var item in synonyms)
                 {
-                    textBox2.Text += item + Environment.NewLine;
+                    if (!string.IsNullOrWhiteSpace(item))
+                    {
+                        tb2_viewRes.Text += item + Environment.NewLine;
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(tb2_viewRes.Text.Trim().Replace(Environment.NewLine, "")))
+                {
+                    tb2_viewRes.Text = $"{Environment.NewLine}= SYNONYMS ={Environment.NewLine}= NOT FOUND =";
                 }
             }
         }
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if (string.IsNullOrWhiteSpace(tb3_addNew.Text))
             {
                 MessageBox.Show("Write your word, please.");
             }
-            else if (string.IsNullOrWhiteSpace(textBox2.Text))
+            else if (string.IsNullOrWhiteSpace(tb2_viewRes.Text))
             {
                 MessageBox.Show("Write synonyms for presented word, please.");
             }
             else
             {
-                List<string> newWords = new List<string> { textBox1.Text };
-                int tb2lines = textBox2.Lines.Length;
+                List<string> newWords = new List<string> { tb3_addNew.Text };
+                int tb2lines = tb2_viewRes.Lines.Length;
                 for (int i = 0; i < tb2lines; i++)
                 {
-                    newWords.Add(textBox2.Lines[i]);
+                    newWords.Add(tb2_viewRes.Lines[i]);
                 }
 
                 thesaurus.AddSynonyms(newWords);
 
-                textBox2.Text = "";
-                // TODO:
-                // implement async !!!
-                // implement async !!!
-                // implement async !!!
-                // implement async !!!
-                // implement async !!!
-                // implement async !!!
-                System.Threading.Thread.Sleep(10000);
+                tb3_addNew.Text = "";
+                tb2_viewRes.Text = "";
+                System.Threading.Thread.Sleep(500);
 
                 IEnumerable<string> words = thesaurus.GetWords();
                 foreach (var item in words)
                 {
-                    textBox2.Text += item + Environment.NewLine;
+                    if (!string.IsNullOrWhiteSpace(item))
+                    {
+                        tb2_viewRes.Text += item + Environment.NewLine;
+                    }
                 }
             }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            tb2_viewRes.Text = "";
         }
     }
 }

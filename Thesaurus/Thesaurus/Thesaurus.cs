@@ -11,8 +11,9 @@ namespace Thesaurus
     /* 
      * Esteemed experts,
      * my name is Andrew Plakhtiy.
-     * I could improve application if I can change 
-     * parameters and return type in IThesaurus interface methods. 
+     * I assumed that any word can be in a single group of synonyms only.
+     * I could improve application if I can change parameters and return type in IThesaurus interface methods.
+     * I beleive I can write much better code, but I have not enough time this month.
      * Thank you for your time!
      */
 
@@ -22,10 +23,11 @@ namespace Thesaurus
 
         // to find not allowed characters and symbols in the incoming words.
         Regex regExp = new Regex("[a-zA-Z0-9]{1,}");
-        // TODO :
-        // may be should to extend regular expressions pattern.
 
-        string collectiondelimiter = " ";
+        // TODO :
+        // to define allowed symbols and to extend regular expressions pattern.
+
+        string tempCollectionDelimiter = " ";
 
         SqLiteWork db = new SqLiteWork();
 
@@ -35,9 +37,10 @@ namespace Thesaurus
             {
                 if (synonyms.Count() > 0)
                 {
-                    string collectAsString = string.Join(collectiondelimiter, synonyms);
+                    // Checking for empty collection and not allowed symbols.
 
-                    // check for empty collection and not allowed symbols.
+                    string collectAsString = string.Join(tempCollectionDelimiter, synonyms);
+
                     // TODO:
                     // what to do if synonyms collection contains a word with not allowed symbols?
                     if (!string.IsNullOrWhiteSpace(collectAsString) && regExp.IsMatch(collectAsString))
@@ -48,11 +51,11 @@ namespace Thesaurus
                         if (existedWord != null)
                         {
                             var newSynCollection = existedWord.Synonims.Split(' ').ToList();
-                            // TODO:
-                            // check for duplicates!
-                            // TODO:
+
                             newSynCollection.AddRange(synonyms);
+                            newSynCollection = newSynCollection.Distinct().ToList();
                             newSynCollection.Sort();
+
                             // TODO:
                             // escaping with spaces must be refactored!
                             // TODO:
@@ -78,12 +81,16 @@ namespace Thesaurus
 
         public IEnumerable<string> GetSynonyms(string word)
         {
-            var oneWord = db.GetOneIfExists(new List<string> { word });
-
-            if (oneWord != null)
+            if (!string.IsNullOrWhiteSpace(word))
             {
-                return oneWord.Synonims.Split(' ').ToList<string>();
+                var oneWord = db.GetOneIfExists(new List<string> { word.Trim() });
+
+                if (oneWord != null)
+                {
+                    return oneWord.Synonims.Split(' ').ToList<string>();
+                }
             }
+
             return new List<string>();
         }
 
@@ -91,7 +98,8 @@ namespace Thesaurus
         public IEnumerable<string> GetWords()
         {
             // TODO:
-            // Must be filtered in case of thousands records.
+            // Must be filtered or paging in case of thousands records.
+
             var manyWords = db.GetMany();
 
             List<string> all = new List<string>();

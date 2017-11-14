@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thesaurus", "Thesaurus\Thes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thesaurus.Tests", "Thesaurus.Tests\Thesaurus.Tests.csproj", "{156001BC-9B9D-4152-9C99-B692F7DD79A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console_TEST_MustBeRemoved_!!!", "Console_TEST_MustBeRemoved\Console_TEST_MustBeRemoved_!!!.csproj", "{2F40B0BF-6E43-4A20-8E08-9E47CC99C375}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thesaurus_Application", "Thesaurus_Application\Thesaurus_Application.csproj", "{52CA7DB4-920D-4FD5-BDDE-56F9B5869D79}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{156001BC-9B9D-4152-9C99-B692F7DD79A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{156001BC-9B9D-4152-9C99-B692F7DD79A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{156001BC-9B9D-4152-9C99-B692F7DD79A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F40B0BF-6E43-4A20-8E08-9E47CC99C375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F40B0BF-6E43-4A20-8E08-9E47CC99C375}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F40B0BF-6E43-4A20-8E08-9E47CC99C375}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F40B0BF-6E43-4A20-8E08-9E47CC99C375}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52CA7DB4-920D-4FD5-BDDE-56F9B5869D79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52CA7DB4-920D-4FD5-BDDE-56F9B5869D79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CA7DB4-920D-4FD5-BDDE-56F9B5869D79}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace Thesaurus
 {
@@ -12,20 +11,16 @@ namespace Thesaurus
         private const string dbStorage = "thesaurus.sqlite";
         private const string synonymNounsTable = "SynonymNouns";
 
-        // TODO :
-        // implement async!
-        // https://www.google.com.ua/search?q=c%23+async+with+sqlite&ie=utf-8&oe=utf-8&client=firefox-b&gfe_rd=cr&dcr=1&ei=dIkJWvv3EOKAX5aAgdgC
-
         public SqLiteWork()
         {
             InitDatabase();
         }
 
         // TODO:
-
-        // TOO MUCH CODE-DUPLICATES!
-
-        // MUST BE REFACTORED!!!
+        // too much code-duplicates!
+        // must be refactored!!!
+        //
+        // check for length when add new description!
 
         public List<WordSynonims> GetMany()
         {
@@ -56,6 +51,7 @@ namespace Thesaurus
                             });
                         }
                     }
+                    rdr.Close();
                 }
                 conn.Close();
             }
@@ -65,7 +61,7 @@ namespace Thesaurus
 
         internal void InsertNewSynonyms(string newSynonims)
         {
-            string insertCmd = "INSERT INTO " + synonymNounsTable + " (description, synonyms) VALUES ('No description yet!', '" + newSynonims + "')";
+            string insertCmd = "INSERT INTO " + synonymNounsTable + " (description, synonyms) VALUES ('No description yet!', ' " + newSynonims + " ')";
 
             using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbStorage + "; Version=3;"))
             {
@@ -94,7 +90,7 @@ namespace Thesaurus
                     SQLiteCommand command = conn.CreateCommand();
                     command.CommandText = updateCmd;
                     command.Parameters.Add("Id", DbType.Int32).Value = id;
-                    command.Parameters.Add("NewSyn", DbType.String).Value = newSynonyms;
+                    command.Parameters.Add("NewSyn", DbType.String).Value = $" {newSynonyms} ";
                     command.ExecuteNonQuery();
                 }
                 conn.Close();
@@ -134,6 +130,7 @@ namespace Thesaurus
                                 };
                             }
                         }
+                        rdr.Close();
                     }
                 }
                 conn.Close();
@@ -154,20 +151,20 @@ namespace Thesaurus
                               "[description] text(250) NOT NULL, " +
                               "[synonyms] text(10000) NOT NULL" +
                               ");" +
-                              "INSERT INTO " + synonymNounsTable +
-                              " (description, synonyms) VALUES " +
+                              "INSERT INTO " + synonymNounsTable + " (description, synonyms) VALUES " +
                               "('a vehicle for traveling through the air that has fixed wings for lift', " +
-                              "'airplane aeroplane plane'), " +
-                              "('a large human settlement with systems for housing, transportation, sanitation, utilities, and communication', " +
-                              "'city metropolis town'), " +
+                              "' airplane aeroplane plane '), " +
+                              "('a large human settlement with systems for housing, transportation, sanitation, utilities and communication', " +
+                              "' city metropolis town '), " +
+                              "('an adult female human being', " +
+                              "' woman female lady miss '), " +
                               "('a mixture of clay, sand and organic matter present on the surface of the Earth and serving as substrate for plant growth and micro-organisms development', " +
-                              "'earth ground land soil')";
+                              "' earth ground land soil ')";
 
                 using (SQLiteConnection conn =
                     new SQLiteConnection("Data Source=" + dbStorage + "; Version=3;"))
                 {
                     conn.Open();
-
                     if (conn.State == ConnectionState.Open)
                     {
                         SQLiteCommand command = conn.CreateCommand();
